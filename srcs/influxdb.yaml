@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: influxdb-creds
+type: Opaque
+stringData:
+  INFLUXDB_CONFIG_PATH: /etc/influxdb/influxdb.conf  
+  INFLUXDB_ADMIN_USER: admin  
+  INFLUXDB_ADMIN_PASSWORD: admin  
+  INFLUXDB_DB: gatling  
+  INFLUXDB_USER: user  
+  INFLUXDB_USER_PASSWORD: user
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: influxdb
+spec:
+  selector:
+    matchLabels:
+      app: influxdb
+  template:
+    metadata:
+      labels:
+        app: influxdb
+    spec:
+      containers:
+      - name: influxdb
+        image: influxdb:1.7.4
+        envFrom:
+          - secretRef:
+              name: influxdb-creds
+        ports:
+        - containerPort: 8086
+        volumeMounts:
+        - mountPath: /etc/influxdb/influxdb.conf
+          name: influxdb-config
+          subPath: influxdb.conf
+          readOnly: true
+      volumes:
+      - configMap:
+          name: influxdb-config
+        name: influxdb-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: influxdb-service
+spec:
+  selector:
+    app: influxdb
+  ports:
+  - protocol: TCP
+    port: 8086
+    targetPort: 8086

@@ -1,0 +1,16 @@
+secretGenerator:
+- name: mysql-pass
+  literals:
+  - password=root
+resources:
+  - nginx.yaml
+  - ingress.yaml
+  - ftps.yaml
+  - mysql.yaml
+  - wordpress.yaml
+  - phpmyadmin.yaml
+  - influxdb-config.yaml
+  - influxdb.yaml
+  - telegraf-config.yaml
+  - telegraf.yaml
+  - grafana.yaml
