@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: centdix/nginx-ssh:first
+        image: centdix/nginx-ssh:third
         ports:
         - containerPort: 80
           name: http
