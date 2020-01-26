@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: ftps
-          image: centdix/ftps:two
+          image: centdix/ftps:third
           ports:
             - containerPort: 21
 ---
